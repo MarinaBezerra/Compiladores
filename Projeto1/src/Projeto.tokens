@@ -1,0 +1,14 @@
+T__0=1
+T__1=2
+T__2=3
+T__3=4
+T__4=5
+INT=6
+ID=7
+COMMENT=8
+WS=9
+'#define'=1
+'#undef'=2
+'#ifdef'=3
+'#ifndef'=4
+'#endif'=5
