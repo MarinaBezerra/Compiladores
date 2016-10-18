@@ -17,18 +17,18 @@ public class ProjetoParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, INT=6, ID=7, COMMENT=8, WS=9;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, INT=6, ID=7, SY=8, WS=9;
 	public static final int
-		RULE_ini = 0, RULE_dir = 1;
+		RULE_pgm = 0, RULE_dir = 1, RULE_cod = 2;
 	public static final String[] ruleNames = {
-		"ini", "dir"
+		"pgm", "dir", "cod"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
 		null, "'#define'", "'#undef'", "'#ifdef'", "'#ifndef'", "'#endif'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, "INT", "ID", "COMMENT", "WS"
+		null, null, null, null, null, null, "INT", "ID", "SY", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -79,54 +79,82 @@ public class ProjetoParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class IniContext extends ParserRuleContext {
-		public IniContext(ParserRuleContext parent, int invokingState) {
+	public static class PgmContext extends ParserRuleContext {
+		public PgmContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_ini; }
+		@Override public int getRuleIndex() { return RULE_pgm; }
 	 
-		public IniContext() { }
-		public void copyFrom(IniContext ctx) {
+		public PgmContext() { }
+		public void copyFrom(PgmContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class DirectivesContext extends IniContext {
+	public static class DirectivesContext extends PgmContext {
 		public List<DirContext> dir() {
 			return getRuleContexts(DirContext.class);
 		}
 		public DirContext dir(int i) {
 			return getRuleContext(DirContext.class,i);
 		}
-		public DirectivesContext(IniContext ctx) { copyFrom(ctx); }
+		public List<CodContext> cod() {
+			return getRuleContexts(CodContext.class);
+		}
+		public CodContext cod(int i) {
+			return getRuleContext(CodContext.class,i);
+		}
+		public DirectivesContext(PgmContext ctx) { copyFrom(ctx); }
 		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitDirectives(this);
-			else return visitor.visitChildren(this);
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterDirectives(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitDirectives(this);
 		}
 	}
 
-	public final IniContext ini() throws RecognitionException {
-		IniContext _localctx = new IniContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_ini);
+	public final PgmContext pgm() throws RecognitionException {
+		PgmContext _localctx = new PgmContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_pgm);
 		int _la;
 		try {
 			_localctx = new DirectivesContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(5); 
+			setState(10);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			do {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__2) | (1L << T__3) | (1L << T__4) | (1L << INT) | (1L << ID) | (1L << SY))) != 0)) {
 				{
-				{
-				setState(4);
-				dir();
+				setState(8);
+				switch (_input.LA(1)) {
+				case T__0:
+				case T__1:
+				case T__2:
+				case T__3:
+				case T__4:
+					{
+					setState(6);
+					dir();
+					}
+					break;
+				case INT:
+				case ID:
+				case SY:
+					{
+					setState(7);
+					cod();
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
 				}
 				}
-				setState(7); 
+				setState(12);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__2) | (1L << T__3) | (1L << T__4))) != 0) );
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -155,19 +183,12 @@ public class ProjetoParser extends Parser {
 		public TerminalNode ID() { return getToken(ProjetoParser.ID, 0); }
 		public UndefineContext(DirContext ctx) { copyFrom(ctx); }
 		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitUndefine(this);
-			else return visitor.visitChildren(this);
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterUndefine(this);
 		}
-	}
-	public static class DefineContext extends DirContext {
-		public TerminalNode ID() { return getToken(ProjetoParser.ID, 0); }
-		public TerminalNode INT() { return getToken(ProjetoParser.INT, 0); }
-		public DefineContext(DirContext ctx) { copyFrom(ctx); }
 		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitDefine(this);
-			else return visitor.visitChildren(this);
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitUndefine(this);
 		}
 	}
 	public static class IfNotDefinedRecContext extends DirContext {
@@ -177,18 +198,37 @@ public class ProjetoParser extends Parser {
 		}
 		public IfNotDefinedRecContext(DirContext ctx) { copyFrom(ctx); }
 		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitIfNotDefinedRec(this);
-			else return visitor.visitChildren(this);
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterIfNotDefinedRec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitIfNotDefinedRec(this);
 		}
 	}
 	public static class IfNotDefinedBaseContext extends DirContext {
 		public TerminalNode ID() { return getToken(ProjetoParser.ID, 0); }
 		public IfNotDefinedBaseContext(DirContext ctx) { copyFrom(ctx); }
 		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitIfNotDefinedBase(this);
-			else return visitor.visitChildren(this);
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterIfNotDefinedBase(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitIfNotDefinedBase(this);
+		}
+	}
+	public static class DefineBinContext extends DirContext {
+		public TerminalNode ID() { return getToken(ProjetoParser.ID, 0); }
+		public TerminalNode INT() { return getToken(ProjetoParser.INT, 0); }
+		public DefineBinContext(DirContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterDefineBin(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitDefineBin(this);
 		}
 	}
 	public static class IfDefinedRecContext extends DirContext {
@@ -198,26 +238,47 @@ public class ProjetoParser extends Parser {
 		}
 		public IfDefinedRecContext(DirContext ctx) { copyFrom(ctx); }
 		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitIfDefinedRec(this);
-			else return visitor.visitChildren(this);
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterIfDefinedRec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitIfDefinedRec(this);
 		}
 	}
 	public static class EndIfContext extends DirContext {
 		public EndIfContext(DirContext ctx) { copyFrom(ctx); }
 		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitEndIf(this);
-			else return visitor.visitChildren(this);
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterEndIf(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitEndIf(this);
 		}
 	}
 	public static class IfDefinedBaseContext extends DirContext {
 		public TerminalNode ID() { return getToken(ProjetoParser.ID, 0); }
 		public IfDefinedBaseContext(DirContext ctx) { copyFrom(ctx); }
 		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitIfDefinedBase(this);
-			else return visitor.visitChildren(this);
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterIfDefinedBase(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitIfDefinedBase(this);
+		}
+	}
+	public static class DefineUnContext extends DirContext {
+		public TerminalNode ID() { return getToken(ProjetoParser.ID, 0); }
+		public DefineUnContext(DirContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterDefineUn(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitDefineUn(this);
 		}
 	}
 
@@ -225,80 +286,90 @@ public class ProjetoParser extends Parser {
 		DirContext _localctx = new DirContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_dir);
 		try {
-			setState(25);
+			setState(31);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
-				_localctx = new DefineContext(_localctx);
+				_localctx = new DefineBinContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(9);
+				setState(13);
 				match(T__0);
-				setState(10);
+				setState(14);
 				match(ID);
-				setState(11);
+				setState(15);
 				match(INT);
 				}
 				break;
 			case 2:
-				_localctx = new UndefineContext(_localctx);
+				_localctx = new DefineUnContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(12);
-				match(T__1);
-				setState(13);
+				setState(16);
+				match(T__0);
+				setState(17);
 				match(ID);
 				}
 				break;
 			case 3:
-				_localctx = new IfDefinedRecContext(_localctx);
+				_localctx = new UndefineContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(14);
-				match(T__2);
-				setState(15);
+				setState(18);
+				match(T__1);
+				setState(19);
 				match(ID);
-				setState(16);
-				dir();
 				}
 				break;
 			case 4:
-				_localctx = new IfDefinedBaseContext(_localctx);
+				_localctx = new IfDefinedRecContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(17);
-				match(T__2);
-				setState(18);
-				match(ID);
-				}
-				break;
-			case 5:
-				_localctx = new IfNotDefinedRecContext(_localctx);
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(19);
-				match(T__3);
 				setState(20);
-				match(ID);
+				match(T__2);
 				setState(21);
+				match(ID);
+				setState(22);
 				dir();
 				}
 				break;
-			case 6:
-				_localctx = new IfNotDefinedBaseContext(_localctx);
-				enterOuterAlt(_localctx, 6);
+			case 5:
+				_localctx = new IfDefinedBaseContext(_localctx);
+				enterOuterAlt(_localctx, 5);
 				{
-				setState(22);
-				match(T__3);
 				setState(23);
+				match(T__2);
+				setState(24);
 				match(ID);
 				}
 				break;
+			case 6:
+				_localctx = new IfNotDefinedRecContext(_localctx);
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(25);
+				match(T__3);
+				setState(26);
+				match(ID);
+				setState(27);
+				dir();
+				}
+				break;
 			case 7:
-				_localctx = new EndIfContext(_localctx);
+				_localctx = new IfNotDefinedBaseContext(_localctx);
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(24);
+				setState(28);
+				match(T__3);
+				setState(29);
+				match(ID);
+				}
+				break;
+			case 8:
+				_localctx = new EndIfContext(_localctx);
+				enterOuterAlt(_localctx, 8);
+				{
+				setState(30);
 				match(T__4);
 				}
 				break;
@@ -315,17 +386,112 @@ public class ProjetoParser extends Parser {
 		return _localctx;
 	}
 
+	public static class CodContext extends ParserRuleContext {
+		public CodContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_cod; }
+	 
+		public CodContext() { }
+		public void copyFrom(CodContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class TextNumberContext extends CodContext {
+		public TerminalNode INT() { return getToken(ProjetoParser.INT, 0); }
+		public TextNumberContext(CodContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterTextNumber(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitTextNumber(this);
+		}
+	}
+	public static class TextSymbolContext extends CodContext {
+		public TerminalNode SY() { return getToken(ProjetoParser.SY, 0); }
+		public TextSymbolContext(CodContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterTextSymbol(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitTextSymbol(this);
+		}
+	}
+	public static class TextIDContext extends CodContext {
+		public TerminalNode ID() { return getToken(ProjetoParser.ID, 0); }
+		public TextIDContext(CodContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterTextID(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitTextID(this);
+		}
+	}
+
+	public final CodContext cod() throws RecognitionException {
+		CodContext _localctx = new CodContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_cod);
+		try {
+			setState(36);
+			switch (_input.LA(1)) {
+			case ID:
+				_localctx = new TextIDContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(33);
+				match(ID);
+				}
+				break;
+			case INT:
+				_localctx = new TextNumberContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(34);
+				match(INT);
+				}
+				break;
+			case SY:
+				_localctx = new TextSymbolContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(35);
+				match(SY);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\13\36\4\2\t\2\4\3"+
-		"\t\3\3\2\6\2\b\n\2\r\2\16\2\t\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\3\3\3\3\3\3\3\3\5\3\34\n\3\3\3\2\2\4\2\4\2\2\"\2\7\3\2\2\2\4"+
-		"\33\3\2\2\2\6\b\5\4\3\2\7\6\3\2\2\2\b\t\3\2\2\2\t\7\3\2\2\2\t\n\3\2\2"+
-		"\2\n\3\3\2\2\2\13\f\7\3\2\2\f\r\7\t\2\2\r\34\7\b\2\2\16\17\7\4\2\2\17"+
-		"\34\7\t\2\2\20\21\7\5\2\2\21\22\7\t\2\2\22\34\5\4\3\2\23\24\7\5\2\2\24"+
-		"\34\7\t\2\2\25\26\7\6\2\2\26\27\7\t\2\2\27\34\5\4\3\2\30\31\7\6\2\2\31"+
-		"\34\7\t\2\2\32\34\7\7\2\2\33\13\3\2\2\2\33\16\3\2\2\2\33\20\3\2\2\2\33"+
-		"\23\3\2\2\2\33\25\3\2\2\2\33\30\3\2\2\2\33\32\3\2\2\2\34\5\3\2\2\2\4\t"+
-		"\33";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\13)\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\3\2\3\2\7\2\13\n\2\f\2\16\2\16\13\2\3\3\3\3\3\3\3\3\3\3\3\3"+
+		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\"\n\3\3\4\3\4\3\4"+
+		"\5\4\'\n\4\3\4\2\2\5\2\4\6\2\2\60\2\f\3\2\2\2\4!\3\2\2\2\6&\3\2\2\2\b"+
+		"\13\5\4\3\2\t\13\5\6\4\2\n\b\3\2\2\2\n\t\3\2\2\2\13\16\3\2\2\2\f\n\3\2"+
+		"\2\2\f\r\3\2\2\2\r\3\3\2\2\2\16\f\3\2\2\2\17\20\7\3\2\2\20\21\7\t\2\2"+
+		"\21\"\7\b\2\2\22\23\7\3\2\2\23\"\7\t\2\2\24\25\7\4\2\2\25\"\7\t\2\2\26"+
+		"\27\7\5\2\2\27\30\7\t\2\2\30\"\5\4\3\2\31\32\7\5\2\2\32\"\7\t\2\2\33\34"+
+		"\7\6\2\2\34\35\7\t\2\2\35\"\5\4\3\2\36\37\7\6\2\2\37\"\7\t\2\2 \"\7\7"+
+		"\2\2!\17\3\2\2\2!\22\3\2\2\2!\24\3\2\2\2!\26\3\2\2\2!\31\3\2\2\2!\33\3"+
+		"\2\2\2!\36\3\2\2\2! \3\2\2\2\"\5\3\2\2\2#\'\7\t\2\2$\'\7\b\2\2%\'\7\n"+
+		"\2\2&#\3\2\2\2&$\3\2\2\2&%\3\2\2\2\'\7\3\2\2\2\6\n\f!&";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -12,18 +12,25 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 public interface ProjetoVisitor<T> extends ParseTreeVisitor<T> {
 	/**
 	 * Visit a parse tree produced by the {@code Directives}
-	 * labeled alternative in {@link ProjetoParser#ini}.
+	 * labeled alternative in {@link ProjetoParser#pgm}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitDirectives(ProjetoParser.DirectivesContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Define}
+	 * Visit a parse tree produced by the {@code DefineBin}
 	 * labeled alternative in {@link ProjetoParser#dir}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDefine(ProjetoParser.DefineContext ctx);
+	T visitDefineBin(ProjetoParser.DefineBinContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code DefineUn}
+	 * labeled alternative in {@link ProjetoParser#dir}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefineUn(ProjetoParser.DefineUnContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Undefine}
 	 * labeled alternative in {@link ProjetoParser#dir}.
@@ -66,4 +73,25 @@ public interface ProjetoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitEndIf(ProjetoParser.EndIfContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TextID}
+	 * labeled alternative in {@link ProjetoParser#cod}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTextID(ProjetoParser.TextIDContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TextNumber}
+	 * labeled alternative in {@link ProjetoParser#cod}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTextNumber(ProjetoParser.TextNumberContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TextSymbol}
+	 * labeled alternative in {@link ProjetoParser#cod}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTextSymbol(ProjetoParser.TextSymbolContext ctx);
 }
