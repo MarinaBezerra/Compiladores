@@ -1,10 +1,10 @@
 grammar Projeto;
 
-ini : (dir | text)*							#Directives				
+pgm : (dir | cod)*					#Directives				
     ;
 	
-dir : '#define' ID INT 				#DefineI
-	| '#define' ID 					#Define
+dir : '#define' ID INT 				#DefineBin
+	| '#define' ID 					#DefineUn
 	| '#undef' ID					#Undefine
 	| '#ifdef' ID dir 				#IfDefinedRec
 	| '#ifdef' ID 					#IfDefinedBase
@@ -13,7 +13,10 @@ dir : '#define' ID INT 				#DefineI
 	| '#endif' 						#EndIf
     ;
 	
-text : ID | INT | SY;
+cod : ID 							#TextID
+	| INT 							#TextNumber
+	| SY 							#TextSymbol
+	;
 
 // fragments (are not tokens by itself)
 fragment DIGIT: [0-9];
