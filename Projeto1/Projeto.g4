@@ -1,16 +1,13 @@
 grammar Projeto;
 
-pgm : (dir | cod)*					#Directives				
+pgm : (dir | cod)*					#Program				
     ;
 	
 dir : '#define' ID INT 				#DefineBin
 	| '#define' ID 					#DefineUn
 	| '#undef' ID					#Undefine
-	| '#ifdef' ID dir 				#IfDefinedRec
-	| '#ifdef' ID 					#IfDefinedBase
-	| '#ifndef' ID dir 				#IfNotDefinedRec
-	| '#ifndef' ID 					#IfNotDefinedBase
-	| '#endif' 						#EndIf
+	| '#ifdef' ID pgm '#endif' 		#IfDefined
+	| '#ifndef' ID pgm '#endif'		#IfNotDefined
     ;
 	
 cod : ID 							#TextID
