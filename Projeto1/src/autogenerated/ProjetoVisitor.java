@@ -11,12 +11,12 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface ProjetoVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by the {@code Directives}
+	 * Visit a parse tree produced by the {@code Program}
 	 * labeled alternative in {@link ProjetoParser#pgm}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDirectives(ProjetoParser.DirectivesContext ctx);
+	T visitProgram(ProjetoParser.ProgramContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code DefineBin}
 	 * labeled alternative in {@link ProjetoParser#dir}.
@@ -39,40 +39,19 @@ public interface ProjetoVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitUndefine(ProjetoParser.UndefineContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code IfDefinedRec}
+	 * Visit a parse tree produced by the {@code IfDefined}
 	 * labeled alternative in {@link ProjetoParser#dir}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIfDefinedRec(ProjetoParser.IfDefinedRecContext ctx);
+	T visitIfDefined(ProjetoParser.IfDefinedContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code IfDefinedBase}
+	 * Visit a parse tree produced by the {@code IfNotDefined}
 	 * labeled alternative in {@link ProjetoParser#dir}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIfDefinedBase(ProjetoParser.IfDefinedBaseContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code IfNotDefinedRec}
-	 * labeled alternative in {@link ProjetoParser#dir}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIfNotDefinedRec(ProjetoParser.IfNotDefinedRecContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code IfNotDefinedBase}
-	 * labeled alternative in {@link ProjetoParser#dir}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIfNotDefinedBase(ProjetoParser.IfNotDefinedBaseContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code EndIf}
-	 * labeled alternative in {@link ProjetoParser#dir}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEndIf(ProjetoParser.EndIfContext ctx);
+	T visitIfNotDefined(ProjetoParser.IfNotDefinedContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code TextID}
 	 * labeled alternative in {@link ProjetoParser#cod}.

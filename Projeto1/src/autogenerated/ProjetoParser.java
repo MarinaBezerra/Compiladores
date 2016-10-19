@@ -25,7 +25,7 @@ public class ProjetoParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'#define'", "'#undef'", "'#ifdef'", "'#ifndef'", "'#endif'"
+		null, "'#define'", "'#undef'", "'#ifdef'", "'#endif'", "'#ifndef'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, "INT", "ID", "SY", "WS"
@@ -90,7 +90,7 @@ public class ProjetoParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class DirectivesContext extends PgmContext {
+	public static class ProgramContext extends PgmContext {
 		public List<DirContext> dir() {
 			return getRuleContexts(DirContext.class);
 		}
@@ -103,14 +103,11 @@ public class ProjetoParser extends Parser {
 		public CodContext cod(int i) {
 			return getRuleContext(CodContext.class,i);
 		}
-		public DirectivesContext(PgmContext ctx) { copyFrom(ctx); }
+		public ProgramContext(PgmContext ctx) { copyFrom(ctx); }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterDirectives(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitDirectives(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitProgram(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -119,20 +116,19 @@ public class ProjetoParser extends Parser {
 		enterRule(_localctx, 0, RULE_pgm);
 		int _la;
 		try {
-			_localctx = new DirectivesContext(_localctx);
+			_localctx = new ProgramContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(10);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__2) | (1L << T__3) | (1L << T__4) | (1L << INT) | (1L << ID) | (1L << SY))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__2) | (1L << T__4) | (1L << INT) | (1L << ID) | (1L << SY))) != 0)) {
 				{
 				setState(8);
 				switch (_input.LA(1)) {
 				case T__0:
 				case T__1:
 				case T__2:
-				case T__3:
 				case T__4:
 					{
 					setState(6);
@@ -183,39 +179,9 @@ public class ProjetoParser extends Parser {
 		public TerminalNode ID() { return getToken(ProjetoParser.ID, 0); }
 		public UndefineContext(DirContext ctx) { copyFrom(ctx); }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterUndefine(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitUndefine(this);
-		}
-	}
-	public static class IfNotDefinedRecContext extends DirContext {
-		public TerminalNode ID() { return getToken(ProjetoParser.ID, 0); }
-		public DirContext dir() {
-			return getRuleContext(DirContext.class,0);
-		}
-		public IfNotDefinedRecContext(DirContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterIfNotDefinedRec(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitIfNotDefinedRec(this);
-		}
-	}
-	public static class IfNotDefinedBaseContext extends DirContext {
-		public TerminalNode ID() { return getToken(ProjetoParser.ID, 0); }
-		public IfNotDefinedBaseContext(DirContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterIfNotDefinedBase(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitIfNotDefinedBase(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitUndefine(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	public static class DefineBinContext extends DirContext {
@@ -223,62 +189,42 @@ public class ProjetoParser extends Parser {
 		public TerminalNode INT() { return getToken(ProjetoParser.INT, 0); }
 		public DefineBinContext(DirContext ctx) { copyFrom(ctx); }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterDefineBin(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitDefineBin(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitDefineBin(this);
+			else return visitor.visitChildren(this);
 		}
 	}
-	public static class IfDefinedRecContext extends DirContext {
+	public static class IfDefinedContext extends DirContext {
 		public TerminalNode ID() { return getToken(ProjetoParser.ID, 0); }
-		public DirContext dir() {
-			return getRuleContext(DirContext.class,0);
+		public PgmContext pgm() {
+			return getRuleContext(PgmContext.class,0);
 		}
-		public IfDefinedRecContext(DirContext ctx) { copyFrom(ctx); }
+		public IfDefinedContext(DirContext ctx) { copyFrom(ctx); }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterIfDefinedRec(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitIfDefinedRec(this);
-		}
-	}
-	public static class EndIfContext extends DirContext {
-		public EndIfContext(DirContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterEndIf(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitEndIf(this);
-		}
-	}
-	public static class IfDefinedBaseContext extends DirContext {
-		public TerminalNode ID() { return getToken(ProjetoParser.ID, 0); }
-		public IfDefinedBaseContext(DirContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterIfDefinedBase(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitIfDefinedBase(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitIfDefined(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	public static class DefineUnContext extends DirContext {
 		public TerminalNode ID() { return getToken(ProjetoParser.ID, 0); }
 		public DefineUnContext(DirContext ctx) { copyFrom(ctx); }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterDefineUn(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitDefineUn(this);
+			else return visitor.visitChildren(this);
 		}
+	}
+	public static class IfNotDefinedContext extends DirContext {
+		public TerminalNode ID() { return getToken(ProjetoParser.ID, 0); }
+		public PgmContext pgm() {
+			return getRuleContext(PgmContext.class,0);
+		}
+		public IfNotDefinedContext(DirContext ctx) { copyFrom(ctx); }
 		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitDefineUn(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitIfNotDefined(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -286,7 +232,7 @@ public class ProjetoParser extends Parser {
 		DirContext _localctx = new DirContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_dir);
 		try {
-			setState(31);
+			setState(30);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
@@ -322,7 +268,7 @@ public class ProjetoParser extends Parser {
 				}
 				break;
 			case 4:
-				_localctx = new IfDefinedRecContext(_localctx);
+				_localctx = new IfDefinedContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(20);
@@ -330,47 +276,23 @@ public class ProjetoParser extends Parser {
 				setState(21);
 				match(ID);
 				setState(22);
-				dir();
+				pgm();
+				setState(23);
+				match(T__3);
 				}
 				break;
 			case 5:
-				_localctx = new IfDefinedBaseContext(_localctx);
+				_localctx = new IfNotDefinedContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(23);
-				match(T__2);
-				setState(24);
-				match(ID);
-				}
-				break;
-			case 6:
-				_localctx = new IfNotDefinedRecContext(_localctx);
-				enterOuterAlt(_localctx, 6);
-				{
 				setState(25);
-				match(T__3);
+				match(T__4);
 				setState(26);
 				match(ID);
 				setState(27);
-				dir();
-				}
-				break;
-			case 7:
-				_localctx = new IfNotDefinedBaseContext(_localctx);
-				enterOuterAlt(_localctx, 7);
-				{
+				pgm();
 				setState(28);
 				match(T__3);
-				setState(29);
-				match(ID);
-				}
-				break;
-			case 8:
-				_localctx = new EndIfContext(_localctx);
-				enterOuterAlt(_localctx, 8);
-				{
-				setState(30);
-				match(T__4);
 				}
 				break;
 			}
@@ -401,36 +323,27 @@ public class ProjetoParser extends Parser {
 		public TerminalNode INT() { return getToken(ProjetoParser.INT, 0); }
 		public TextNumberContext(CodContext ctx) { copyFrom(ctx); }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterTextNumber(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitTextNumber(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitTextNumber(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	public static class TextSymbolContext extends CodContext {
 		public TerminalNode SY() { return getToken(ProjetoParser.SY, 0); }
 		public TextSymbolContext(CodContext ctx) { copyFrom(ctx); }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterTextSymbol(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitTextSymbol(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitTextSymbol(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	public static class TextIDContext extends CodContext {
 		public TerminalNode ID() { return getToken(ProjetoParser.ID, 0); }
 		public TextIDContext(CodContext ctx) { copyFrom(ctx); }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).enterTextID(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ProjetoListener ) ((ProjetoListener)listener).exitTextID(this);
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ProjetoVisitor ) return ((ProjetoVisitor<? extends T>)visitor).visitTextID(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -438,13 +351,13 @@ public class ProjetoParser extends Parser {
 		CodContext _localctx = new CodContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_cod);
 		try {
-			setState(36);
+			setState(35);
 			switch (_input.LA(1)) {
 			case ID:
 				_localctx = new TextIDContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(33);
+				setState(32);
 				match(ID);
 				}
 				break;
@@ -452,7 +365,7 @@ public class ProjetoParser extends Parser {
 				_localctx = new TextNumberContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(34);
+				setState(33);
 				match(INT);
 				}
 				break;
@@ -460,7 +373,7 @@ public class ProjetoParser extends Parser {
 				_localctx = new TextSymbolContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(35);
+				setState(34);
 				match(SY);
 				}
 				break;
@@ -480,18 +393,17 @@ public class ProjetoParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\13)\4\2\t\2\4\3\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\13(\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\3\2\3\2\7\2\13\n\2\f\2\16\2\16\13\2\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\"\n\3\3\4\3\4\3\4"+
-		"\5\4\'\n\4\3\4\2\2\5\2\4\6\2\2\60\2\f\3\2\2\2\4!\3\2\2\2\6&\3\2\2\2\b"+
-		"\13\5\4\3\2\t\13\5\6\4\2\n\b\3\2\2\2\n\t\3\2\2\2\13\16\3\2\2\2\f\n\3\2"+
-		"\2\2\f\r\3\2\2\2\r\3\3\2\2\2\16\f\3\2\2\2\17\20\7\3\2\2\20\21\7\t\2\2"+
-		"\21\"\7\b\2\2\22\23\7\3\2\2\23\"\7\t\2\2\24\25\7\4\2\2\25\"\7\t\2\2\26"+
-		"\27\7\5\2\2\27\30\7\t\2\2\30\"\5\4\3\2\31\32\7\5\2\2\32\"\7\t\2\2\33\34"+
-		"\7\6\2\2\34\35\7\t\2\2\35\"\5\4\3\2\36\37\7\6\2\2\37\"\7\t\2\2 \"\7\7"+
-		"\2\2!\17\3\2\2\2!\22\3\2\2\2!\24\3\2\2\2!\26\3\2\2\2!\31\3\2\2\2!\33\3"+
-		"\2\2\2!\36\3\2\2\2! \3\2\2\2\"\5\3\2\2\2#\'\7\t\2\2$\'\7\b\2\2%\'\7\n"+
-		"\2\2&#\3\2\2\2&$\3\2\2\2&%\3\2\2\2\'\7\3\2\2\2\6\n\f!&";
+		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3!\n\3\3\4\3\4\3\4\5\4"+
+		"&\n\4\3\4\2\2\5\2\4\6\2\2,\2\f\3\2\2\2\4 \3\2\2\2\6%\3\2\2\2\b\13\5\4"+
+		"\3\2\t\13\5\6\4\2\n\b\3\2\2\2\n\t\3\2\2\2\13\16\3\2\2\2\f\n\3\2\2\2\f"+
+		"\r\3\2\2\2\r\3\3\2\2\2\16\f\3\2\2\2\17\20\7\3\2\2\20\21\7\t\2\2\21!\7"+
+		"\b\2\2\22\23\7\3\2\2\23!\7\t\2\2\24\25\7\4\2\2\25!\7\t\2\2\26\27\7\5\2"+
+		"\2\27\30\7\t\2\2\30\31\5\2\2\2\31\32\7\6\2\2\32!\3\2\2\2\33\34\7\7\2\2"+
+		"\34\35\7\t\2\2\35\36\5\2\2\2\36\37\7\6\2\2\37!\3\2\2\2 \17\3\2\2\2 \22"+
+		"\3\2\2\2 \24\3\2\2\2 \26\3\2\2\2 \33\3\2\2\2!\5\3\2\2\2\"&\7\t\2\2#&\7"+
+		"\b\2\2$&\7\n\2\2%\"\3\2\2\2%#\3\2\2\2%$\3\2\2\2&\7\3\2\2\2\6\n\f %";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -10,5 +10,5 @@ WS=9
 '#define'=1
 '#undef'=2
 '#ifdef'=3
-'#ifndef'=4
-'#endif'=5
+'#endif'=4
+'#ifndef'=5
