@@ -1,18 +1,18 @@
 grammar Projeto;
 
-pgm : (dir | cod)*					#Program				
+pgm : (dir | cod | WS)*						#Program				
     ;
 	
-dir : '#define' ID INT 				#DefineBin
-	| '#define' ID 					#DefineUn
-	| '#undef' ID					#Undefine
-	| '#ifdef' ID pgm '#endif' 		#IfDefined
-	| '#ifndef' ID pgm '#endif'		#IfNotDefined
+dir : '#define' WS ID WS INT WS 			#DefineBin
+	| '#define' WS ID WS 					#DefineUn
+	| '#undef' WS ID WS						#Undefine
+	| '#ifdef' WS ID WS pgm WS '#endif' WS	#IfDefined
+	| '#ifndef' WS ID WS pgm WS '#endif' WS	#IfNotDefined
     ;
 	
-cod : ID 							#TextID
-	| INT 							#TextNumber
-	| SY 							#TextSymbol
+cod : ID 									#TextID
+	| INT 									#TextNumber
+	| SY 									#TextSymbol
 	;
 
 // fragments (are not tokens by itself)
@@ -24,4 +24,4 @@ fragment SYMBOL: [\u0021-\u00FF_];
 INT : DIGIT+;
 ID : LETTER (LETTER | DIGIT)*;
 SY : SYMBOL+;
-WS :  [ \t\r\n]+ -> skip;
+WS :  [ \t\r\n]+;
