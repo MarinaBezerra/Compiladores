@@ -6,13 +6,13 @@ pgm : (dir | cod | WS)*						#Program
 dir : '#define' WS ID WS INT WS 			#DefineBin
 	| '#define' WS ID WS 					#DefineUn
 	| '#undef' WS ID WS						#Undefine
-	| '#ifdef' WS ID WS pgm WS '#endif' WS	#IfDefined
-	| '#ifndef' WS ID WS pgm WS '#endif' WS	#IfNotDefined
+	| '#ifdef' WS ID WS pgm '#endif' WS		#IfDefined
+	| '#ifndef' WS ID WS pgm '#endif' WS 	#IfNotDefined
     ;
 	
-cod : ID 									#TextID
-	| INT 									#TextNumber
-	| SY 									#TextSymbol
+cod : ID WS 								#TextID
+	| INT WS 								#TextNumber
+	| SY WS 								#TextSymbol
 	;
 
 // fragments (are not tokens by itself)
