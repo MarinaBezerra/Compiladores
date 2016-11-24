@@ -9,3 +9,6 @@ https://github.com/antlr/antlr4/blob/master/doc/index.md
 
 Git do professor:
 https://github.com/damorim/compilers-cin
+
+Adicionando .classpath do eclipse:
+git add --all C:\Users\mgb\Desktop\Compiladores\AP3\antlr-codegen
