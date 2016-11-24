@@ -1,0 +1,27 @@
+void main( ) {
+  int a = add(1, 2);
+  if a > 2 then {
+    println(a);
+  } else {
+    println(doSomething(a, 3));
+  }
+}
+
+
+
+int add(int a, int b) {
+  int result = a + b;
+  return result;
+}
+
+
+
+int doSomething(int a, int b) {
+  int c = a / b;
+  int d = c - b;
+  if d == 0 then {
+    return 0;
+  } else {
+    return 1;
+  }
+}
